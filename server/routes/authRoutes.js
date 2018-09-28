@@ -8,4 +8,8 @@ module.exports = app => {
   );
   // Route with code from Google available
   app.get('/auth/google/callback', passport.authenticate('google'));
+
+  app.get('/api/current_user', (req, res) => {
+    res.send(req.user);
+  });
 };
