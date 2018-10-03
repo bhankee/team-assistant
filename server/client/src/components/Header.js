@@ -1,17 +1,47 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import Payments from './Payments';
 
 class Header extends Component {
+  renderContent() {
+    switch (this.props.auth) {
+      case null:
+        return;
+        break;
+
+      case false:
+        return (
+          <li>
+            <a href="/auth/google">Login With Google</a>
+          </li>
+        );
+        break;
+
+      default:
+        return (
+          <React.Fragment>
+            <li>
+              <Payments />
+            </li>
+            <li>
+              <a href="/api/logout">Logout</a>
+            </li>
+          </React.Fragment>
+        );
+        break;
+    }
+  }
+
   render() {
     return (
       <nav>
-        <div class="nav-wrapper">
-          <a href="#" class="brand-logo">
+        <div className="nav-wrapper">
+          <Link to={this.props.auth ? '/surveys' : '/'} className="brand-logo">
             Team Assistant
-          </a>
-          <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <li>
-              <a href="sass.html">Login with Google</a>
-            </li>
+          </Link>
+          <ul id="nav-mobile" className="right hide-on-med-and-down">
+            {this.renderContent()}
           </ul>
         </div>
       </nav>
@@ -19,4 +49,8 @@ class Header extends Component {
   }
 }
 
-export default Header;
+function mapStateToProps({ auth }) {
+  return { auth };
+}
+
+export default connect(mapStateToProps)(Header);
