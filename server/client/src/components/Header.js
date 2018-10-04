@@ -25,6 +25,10 @@ class Header extends Component {
               <Payments />
             </li>
             <li>
+              Credits:
+              {this.props.auth.credits}
+            </li>
+            <li>
               <a href="/api/logout">Logout</a>
             </li>
           </React.Fragment>
